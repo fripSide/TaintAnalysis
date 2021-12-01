@@ -1,0 +1,92 @@
+public class IntraTest extends java.lang.Object
+{
+    private int field;
+
+    public static void main(java.lang.String[])
+    {
+        java.lang.String[] args;
+        java.lang.String temp$2;
+        int temp$3, two, temp$4, temp$8, temp$10, temp$12, temp$14, temp$20;
+        java.io.PrintStream temp$16, temp$17, temp$26;
+        IntraTest temp$18;
+        int[] array;
+
+        args := @parameter0: java.lang.String[];
+
+        temp$2 = args[0];
+
+        temp$3 = staticinvoke <java.lang.Integer: int parseInt(java.lang.String)>(temp$2);
+
+        two = 2;
+
+        temp$4 = temp$3 % 2;
+
+        if temp$4 == 0 goto label1;
+
+        goto label2;
+
+     label1:
+        goto label5;
+
+     label2:
+        temp$8 = 2 + 2;
+
+        if temp$8 > 0 goto label3;
+
+        goto label4;
+
+     label3:
+        temp$10 = 2 + 1;
+
+        two = temp$10;
+
+        goto label5;
+
+     label4:
+        temp$12 = 2 + -1;
+
+        two = temp$12;
+
+     label5:
+        temp$14 = two + 1;
+
+        temp$16 = <java.lang.System: java.io.PrintStream out>;
+
+        virtualinvoke temp$16.<java.io.PrintStream: void println(int)>(temp$14);
+
+        temp$17 = <java.lang.System: java.io.PrintStream out>;
+
+        virtualinvoke temp$17.<java.io.PrintStream: void println(int)>(2);
+
+        temp$18 = new IntraTest;
+
+        specialinvoke temp$18.<IntraTest: void <init>()>();
+
+        temp$20 = 2 + temp$14;
+
+        temp$18.<IntraTest: int field> = temp$20;
+
+        array = newarray (int)[2];
+
+        array[0] = temp$14;
+
+        array[1] = 0;
+
+        temp$26 = <java.lang.System: java.io.PrintStream out>;
+
+        virtualinvoke temp$26.<java.io.PrintStream: void println(java.lang.Object)>(array);
+
+        return;
+    }
+
+    public void <init>()
+    {
+        IntraTest this;
+
+        this := @this: IntraTest;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+}
