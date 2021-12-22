@@ -1,0 +1,29 @@
+public class Test1 extends java.lang.Object
+{
+
+    public static void main(java.lang.String[])
+    {
+        java.lang.String[] args;
+
+        args := @parameter0: java.lang.String[];
+
+        goto label1;
+
+     label1:
+        goto label2;
+
+     label2:
+        return;
+    }
+
+    public void <init>()
+    {
+        Test1 this;
+
+        this := @this: Test1;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+}

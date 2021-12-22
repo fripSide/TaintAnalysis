@@ -1,1 +1,0 @@
-javac test/*.java -d cls
