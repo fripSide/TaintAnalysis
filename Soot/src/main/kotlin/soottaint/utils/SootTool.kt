@@ -110,6 +110,9 @@ object SootTool {
 		Options.v().set_whole_program(false)
 		Scene.v().loadNecessaryClasses()
 		OBJECT = Scene.v().getSootClass("java.lang.Object")
+
+//		PackManager.v().runPacks()
+//		PackManager.v().writeOutput()
 	}
 
 	//--------------------------------------------------------------------------

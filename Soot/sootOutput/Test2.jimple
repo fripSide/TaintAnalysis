@@ -1,29 +1,26 @@
 public class Test2 extends java.lang.Object
 {
 
+    public void <init>()
+    {
+        Test2 r0;
+
+        r0 := @this: Test2;
+
+        specialinvoke r0.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
     public static void main(java.lang.String[])
     {
-        java.lang.String[] args;
+        java.lang.String[] r0;
 
-        args := @parameter0: java.lang.String[];
+        r0 := @parameter0: java.lang.String[];
 
         goto label1;
 
      label1:
-        goto label2;
-
-     label2:
-        return;
-    }
-
-    public void <init>()
-    {
-        Test2 this;
-
-        this := @this: Test2;
-
-        specialinvoke this.<java.lang.Object: void <init>()>();
-
         return;
     }
 }

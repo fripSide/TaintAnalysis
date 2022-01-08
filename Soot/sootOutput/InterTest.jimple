@@ -1,150 +1,150 @@
 public class InterTest extends java.lang.Object
 {
 
-    public void invoke1(int, int)
+    public void <init>()
     {
-        InterTest this;
-        int a, b, c, temp$1, temp$4, i;
-        float temp$2, temp$5;
-        HelloWorld temp$3, temp$6;
-        int[] temp$7;
-        java.io.PrintStream temp$10, temp$11;
+        InterTest r0;
 
-        this := @this: InterTest;
+        r0 := @this: InterTest;
 
-        a := @parameter0: int;
-
-        b := @parameter1: int;
-
-        temp$1 = a + b;
-
-        c = temp$1 + 0;
-
-        temp$2 = virtualinvoke this.<InterTest: float invoke2(int)>(c);
-
-        temp$3 = new HelloWorld;
-
-        temp$4 = (int) temp$2;
-
-        specialinvoke temp$3.<HelloWorld: void <init>(int)>(temp$4);
-
-        virtualinvoke temp$3.<HelloWorld: void invoke3()>();
-
-        temp$5 = 2.0F * temp$2;
-
-        temp$6 = virtualinvoke this.<InterTest: HelloWorld getClass(float)>(temp$5);
-
-        virtualinvoke temp$6.<HelloWorld: void invoke(int)>(c);
-
-        virtualinvoke temp$6.<HelloWorld: void invoke3()>();
-
-        temp$7 = virtualinvoke this.<InterTest: int[] invoke4(int,HelloWorld)>(2, temp$6);
-
-        i = temp$7[0];
-
-        temp$10 = <java.lang.System: java.io.PrintStream out>;
-
-        virtualinvoke temp$10.<java.io.PrintStream: void println(java.lang.Object)>(temp$7);
-
-        temp$11 = <java.lang.System: java.io.PrintStream out>;
-
-        virtualinvoke temp$11.<java.io.PrintStream: void println(int)>(i);
+        specialinvoke r0.<java.lang.Object: void <init>()>();
 
         return;
     }
 
-    private final HelloWorld getClass(float)
+    public void invoke1(int, int)
     {
-        InterTest this;
-        float f;
-        HelloWorld temp$0;
-        int temp$1;
+        java.io.PrintStream $r4, $r5;
+        HelloWorld $r1, $r2;
+        InterTest r0;
+        int[] $r3;
+        int i0, i1, $i2, i3, $i4, i5;
+        float $f0, $f1;
 
-        this := @this: InterTest;
+        r0 := @this: InterTest;
 
-        f := @parameter0: float;
+        i0 := @parameter0: int;
 
-        temp$0 = new HelloWorld;
+        i1 := @parameter1: int;
 
-        temp$1 = (int) f;
+        $i2 = i0 + i1;
 
-        specialinvoke temp$0.<HelloWorld: void <init>(int)>(temp$1);
+        i3 = $i2 + 0;
 
-        return temp$0;
+        $f0 = virtualinvoke r0.<InterTest: float invoke2(int)>(i3);
+
+        $r1 = new HelloWorld;
+
+        $i4 = (int) $f0;
+
+        specialinvoke $r1.<HelloWorld: void <init>(int)>($i4);
+
+        virtualinvoke $r1.<HelloWorld: void invoke3()>();
+
+        $f1 = 2.0F * $f0;
+
+        $r2 = specialinvoke r0.<InterTest: HelloWorld getClass(float)>($f1);
+
+        virtualinvoke $r2.<HelloWorld: void invoke(int)>(i3);
+
+        virtualinvoke $r2.<HelloWorld: void invoke3()>();
+
+        $r3 = specialinvoke r0.<InterTest: int[] invoke4(int,HelloWorld)>(2, $r2);
+
+        i5 = $r3[0];
+
+        $r4 = <java.lang.System: java.io.PrintStream out>;
+
+        virtualinvoke $r4.<java.io.PrintStream: void println(java.lang.Object)>($r3);
+
+        $r5 = <java.lang.System: java.io.PrintStream out>;
+
+        virtualinvoke $r5.<java.io.PrintStream: void println(int)>(i5);
+
+        return;
     }
 
-    private final int[] invoke4(int, HelloWorld)
+    private HelloWorld getClass(float)
     {
-        InterTest this;
-        int i, temp$0;
-        HelloWorld h;
-        int[] array;
+        InterTest r1;
+        int $i0;
+        float f0;
+        HelloWorld $r0;
 
-        this := @this: InterTest;
+        r1 := @this: InterTest;
 
-        i := @parameter0: int;
+        f0 := @parameter0: float;
 
-        h := @parameter1: HelloWorld;
+        $r0 = new HelloWorld;
 
-        array = newarray (int)[3];
+        $i0 = (int) f0;
 
-        temp$0 = virtualinvoke h.<HelloWorld: int getField()>();
+        specialinvoke $r0.<HelloWorld: void <init>(int)>($i0);
 
-        array[0] = temp$0;
+        return $r0;
+    }
 
-        array[1] = i;
+    private int[] invoke4(int, HelloWorld)
+    {
+        InterTest r2;
+        int[] r0;
+        int $i0, i1;
+        HelloWorld r1;
 
-        array[2] = 0;
+        r2 := @this: InterTest;
 
-        return array;
+        i1 := @parameter0: int;
+
+        r1 := @parameter1: HelloWorld;
+
+        r0 = newarray (int)[3];
+
+        $i0 = virtualinvoke r1.<HelloWorld: int getField()>();
+
+        r0[0] = $i0;
+
+        r0[1] = i1;
+
+        r0[2] = 0;
+
+        return r0;
     }
 
     public float invoke2(int)
     {
-        InterTest this;
-        int c, temp$0;
-        float temp$1;
+        InterTest r0;
+        int i0, $i1;
+        float $f0;
 
-        this := @this: InterTest;
+        r0 := @this: InterTest;
 
-        c := @parameter0: int;
+        i0 := @parameter0: int;
 
-        temp$0 = c * c;
+        $i1 = i0 * i0;
 
-        temp$1 = (float) temp$0;
+        $f0 = (float) $i1;
 
-        return temp$1;
+        return $f0;
     }
 
     public static void main(java.lang.String[])
     {
-        java.lang.String[] args;
-        InterTest temp$0;
-        java.lang.String temp$3;
-        int temp$4;
+        InterTest $r0;
+        int $i0;
+        java.lang.String[] r1;
+        java.lang.String $r2;
 
-        args := @parameter0: java.lang.String[];
+        r1 := @parameter0: java.lang.String[];
 
-        temp$0 = new InterTest;
+        $r0 = new InterTest;
 
-        specialinvoke temp$0.<InterTest: void <init>()>();
+        specialinvoke $r0.<InterTest: void <init>()>();
 
-        temp$3 = args[0];
+        $r2 = r1[0];
 
-        temp$4 = staticinvoke <java.lang.Integer: int parseInt(java.lang.String)>(temp$3);
+        $i0 = staticinvoke <java.lang.Integer: int parseInt(java.lang.String)>($r2);
 
-        virtualinvoke temp$0.<InterTest: void invoke1(int,int)>(temp$4, 2);
-
-        return;
-    }
-
-    public void <init>()
-    {
-        InterTest this;
-
-        this := @this: InterTest;
-
-        specialinvoke this.<java.lang.Object: void <init>()>();
+        virtualinvoke $r0.<InterTest: void invoke1(int,int)>($i0, 2);
 
         return;
     }

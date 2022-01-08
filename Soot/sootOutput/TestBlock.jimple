@@ -1,0 +1,66 @@
+public class TestBlock extends java.lang.Object
+{
+
+    public void <init>()
+    {
+        TestBlock r0;
+
+        r0 := @this: TestBlock;
+
+        specialinvoke r0.<java.lang.Object: void <init>()>();
+
+        return;
+    }
+
+    public static void main(java.lang.String[])
+    {
+        java.io.PrintStream $r1, $r2, $r6;
+        java.lang.Throwable $r4;
+        java.lang.String[] r0;
+        java.lang.Exception $r5;
+        int i0;
+        java.lang.String $r3, r7;
+
+        r0 := @parameter0: java.lang.String[];
+
+     label1:
+        i0 = lengthof r0;
+
+        r7 = r0[1];
+
+        $r1 = <java.lang.System: java.io.PrintStream out>;
+
+        virtualinvoke $r1.<java.io.PrintStream: void println(java.lang.String)>(r7);
+
+     label2:
+        goto label6;
+
+     label3:
+        $r5 := @caughtexception;
+
+        $r6 = <java.lang.System: java.io.PrintStream out>;
+
+        virtualinvoke $r6.<java.io.PrintStream: void println(java.lang.Object)>($r5);
+
+     label4:
+        goto label6;
+
+     label5:
+        $r4 := @caughtexception;
+
+        throw $r4;
+
+     label6:
+        $r2 = <java.lang.System: java.io.PrintStream out>;
+
+        $r3 = dynamicinvoke "makeConcatWithConstants" <java.lang.String (int)>(0) <java.lang.invoke.StringConcatFactory: java.lang.invoke.CallSite makeConcatWithConstants(java.lang.invoke.MethodHandles$Lookup,java.lang.String,java.lang.invoke.MethodType,java.lang.String,java.lang.Object[])>("Final Result:\u0001");
+
+        virtualinvoke $r2.<java.io.PrintStream: void println(java.lang.String)>($r3);
+
+        return;
+
+        catch java.lang.Exception from label1 to label2 with label3;
+        catch java.lang.Throwable from label1 to label2 with label5;
+        catch java.lang.Throwable from label3 to label4 with label5;
+    }
+}

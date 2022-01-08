@@ -1,28 +1,40 @@
 public class Test1 extends java.lang.Object
 {
 
-    public static void main(java.lang.String[])
+    public void <init>()
     {
-        java.lang.String[] args;
+        Test1 r0;
 
-        args := @parameter0: java.lang.String[];
+        r0 := @this: Test1;
 
-        goto label1;
+        specialinvoke r0.<java.lang.Object: void <init>()>();
 
-     label1:
-        goto label2;
-
-     label2:
         return;
     }
 
-    public void <init>()
+    public static void main(java.lang.String[])
     {
-        Test1 this;
+        java.io.PrintStream $r1;
+        int i0, i1;
+        java.lang.String[] r0;
 
-        this := @this: Test1;
+        r0 := @parameter0: java.lang.String[];
 
-        specialinvoke this.<java.lang.Object: void <init>()>();
+        i0 = lengthof r0;
+
+        if i0 <= 2 goto label1;
+
+        i1 = 4;
+
+        goto label2;
+
+     label1:
+        i1 = i0;
+
+     label2:
+        $r1 = <java.lang.System: java.io.PrintStream out>;
+
+        virtualinvoke $r1.<java.io.PrintStream: void println(int)>(i1);
 
         return;
     }

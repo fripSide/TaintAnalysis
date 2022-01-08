@@ -1,3 +1,3 @@
 ## TanitAnalysis Tutorials
-Implement TaintAnalysis in various tool in the simplest way.
+Implement simple TaintAnalysis based on various tools.
 

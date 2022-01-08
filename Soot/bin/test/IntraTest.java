@@ -20,7 +20,6 @@ public class IntraTest {
             }
         }
         two++;
-        l = 2;
         i = two;
         // sink 1
         System.out.println(i);
@@ -29,9 +28,10 @@ public class IntraTest {
         IntraTest t = new IntraTest();
         t.field = l + i;
 
+        l = 2;
         int[] array = new int[2];
         array[0] = i;
-        array[1] = 0;
+        array[1] = l;
 
         // sink 2
         System.out.println(array);

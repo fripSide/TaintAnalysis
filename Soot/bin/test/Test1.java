@@ -1,12 +1,13 @@
 
 public class Test1 {
 	public static void main(String[] args)  {
-		int a = 1, b = 2, c = 3, sink = 4, source = 5;
+		int source = args.length, a = 4, b = 2, c = 3, sink = 5;
 		b = source;
-		if (a > 0)
-			;
+		if (source > 2)
+			c = a;
 		else
 			c = b;
 		sink = c;
+		System.out.println(sink);
 	}
 }

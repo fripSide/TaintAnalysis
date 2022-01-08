@@ -4,123 +4,120 @@ public class HelloWorld extends java.lang.Object
 
     public void <init>()
     {
-        HelloWorld this;
+        HelloWorld r0;
 
-        this := @this: HelloWorld;
+        r0 := @this: HelloWorld;
 
-        specialinvoke this.<java.lang.Object: void <init>()>();
+        specialinvoke r0.<java.lang.Object: void <init>()>();
 
         return;
     }
 
     public void <init>(int)
     {
-        HelloWorld this;
-        int i;
+        int i0;
+        HelloWorld r0;
 
-        this := @this: HelloWorld;
+        r0 := @this: HelloWorld;
 
-        i := @parameter0: int;
+        i0 := @parameter0: int;
 
-        specialinvoke this.<java.lang.Object: void <init>()>();
+        specialinvoke r0.<java.lang.Object: void <init>()>();
 
-        this.<HelloWorld: int field> = i;
+        r0.<HelloWorld: int field> = i0;
 
         return;
     }
 
     public void invoke(int)
     {
-        HelloWorld this;
-        int i;
+        int i0;
+        HelloWorld r0;
 
-        this := @this: HelloWorld;
+        r0 := @this: HelloWorld;
 
-        i := @parameter0: int;
+        i0 := @parameter0: int;
 
-        if i == 1 goto label1;
+        if i0 != 1 goto label1;
+
+        virtualinvoke r0.<HelloWorld: void hello()>();
 
         goto label2;
 
      label1:
-        virtualinvoke this.<HelloWorld: void hello()>();
-
-        goto label3;
+        virtualinvoke r0.<HelloWorld: void nohello()>();
 
      label2:
-        virtualinvoke this.<HelloWorld: void nohello()>();
-
-     label3:
         return;
     }
 
     public void invoke3()
     {
-        HelloWorld this;
-        java.io.PrintStream temp$0;
-        int temp$1;
+        int $i0;
+        java.io.PrintStream $r1;
+        HelloWorld r0;
 
-        this := @this: HelloWorld;
+        r0 := @this: HelloWorld;
 
-        temp$0 = <java.lang.System: java.io.PrintStream out>;
+        $r1 = <java.lang.System: java.io.PrintStream out>;
 
-        temp$1 = this.<HelloWorld: int field>;
+        $i0 = r0.<HelloWorld: int field>;
 
-        virtualinvoke temp$0.<java.io.PrintStream: void println(int)>(temp$1);
+        virtualinvoke $r1.<java.io.PrintStream: void println(int)>($i0);
 
         return;
     }
 
     public void hello()
     {
-        HelloWorld this;
-        java.io.PrintStream temp$0;
+        java.io.PrintStream $r0;
+        HelloWorld r1;
 
-        this := @this: HelloWorld;
+        r1 := @this: HelloWorld;
 
-        temp$0 = <java.lang.System: java.io.PrintStream out>;
+        $r0 = <java.lang.System: java.io.PrintStream out>;
 
-        virtualinvoke temp$0.<java.io.PrintStream: void println(java.lang.String)>("Hello world!");
+        virtualinvoke $r0.<java.io.PrintStream: void println(java.lang.String)>("Hello world!");
 
         return;
     }
 
     public void nohello()
     {
-        HelloWorld this;
-        java.io.PrintStream temp$0;
+        java.io.PrintStream $r0;
+        HelloWorld r1;
 
-        this := @this: HelloWorld;
+        r1 := @this: HelloWorld;
 
-        temp$0 = <java.lang.System: java.io.PrintStream out>;
+        $r0 = <java.lang.System: java.io.PrintStream out>;
 
-        virtualinvoke temp$0.<java.io.PrintStream: void println()>();
+        virtualinvoke $r0.<java.io.PrintStream: void println()>();
 
         return;
     }
 
     public int getField()
     {
-        HelloWorld this;
-        int temp$0;
+        int $i0;
+        HelloWorld r0;
 
-        this := @this: HelloWorld;
+        r0 := @this: HelloWorld;
 
-        temp$0 = this.<HelloWorld: int field>;
+        $i0 = r0.<HelloWorld: int field>;
 
-        return temp$0;
+        return $i0;
     }
 
     public void setField(int)
     {
-        HelloWorld this;
-        int field;
+        int i0;
+        HelloWorld r0;
 
-        this := @this: HelloWorld;
+        r0 := @this: HelloWorld;
 
-        field := @parameter0: int;
+        i0 := @parameter0: int;
 
-        this.<HelloWorld: int field> = field;
+        r0.<HelloWorld: int field> = i0;
 
         return;
     }
