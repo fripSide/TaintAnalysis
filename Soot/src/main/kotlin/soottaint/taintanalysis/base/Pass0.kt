@@ -1,16 +1,15 @@
 package soottaint.taintanalysis.base
 
-import polyglot.ast.Call
 import soot.*
 import soot.Unit
 import soot.jimple.*
 import soot.jimple.internal.*
 import soot.toolkits.graph.Block
 import soot.toolkits.graph.CompleteBlockGraph
+import soottaint.common.JDKHelper
 import soottaint.utils.LogNow
 import soottaint.utils.SootTool
 import java.util.*
-import kotlin.collections.LinkedHashSet
 
 
 /*
@@ -19,6 +18,7 @@ import kotlin.collections.LinkedHashSet
 先forward扫描,遇到tag变量记录一下
 
  */
+
 
 class SourcePoint(var mtd: SootMethod, var block: Block, var inst: Unit, var value: Value) {
 
@@ -35,14 +35,14 @@ class StmtItem(mtd: SootMethod, block: Block, unit: Unit) {
 	var containSink = false
 }
 
-class CallStackItem(mtd: SootMethod, block: Block, unit: Unit, retVal: Value) {
+class CallStackItem(mtd: SootMethod, block: Block, unit: Unit, retVal: Value?) {
 }
 
 class IntraContext(mtd: SootMethod, block: Block, unit: Unit): AbstractStmtSwitch<Unit>() {
 
 	var methodLocation: SootMethod = mtd
 	var blockLocation: Block = block
-	var instructionLocation = unit
+	var instructionLocation: Unit? = unit
 
 	var isTerminate = false
 	var containSink = false
@@ -54,11 +54,14 @@ class IntraContext(mtd: SootMethod, block: Block, unit: Unit): AbstractStmtSwitc
 	val interestedValue = hashSetOf<Value>()
 
 	init {
-
+//		println("Init IntraContext")
+//		println(unit)
+//		interestedValue.add()
+//		println("----------> IntraContext Construction init")
 	}
 
-	constructor(ctx: IntraContext): this(ctx.methodLocation, ctx.blockLocation, ctx.instructionLocation) {
-
+	constructor(ctx: IntraContext): this(ctx.methodLocation, ctx.blockLocation, ctx.instructionLocation!!) {
+//		println("----------> IntraContext Construction")
 	}
 
 	fun process() {
@@ -87,16 +90,26 @@ class IntraContext(mtd: SootMethod, block: Block, unit: Unit): AbstractStmtSwitc
 		containSink = true
 	}
 
-	override fun hashCode(): Int {
-		return instructionLocation.hashCode()
+	fun containInterested(values: List<Value>): Boolean {
+		for (v in values) {
+			if (interestedValue.contains(v)) {
+				return true
+			}
+		}
+		return false
 	}
 
-	override fun equals(other: Any?): Boolean {
-		if (other is IntraContext) {
-			return this.instructionLocation == other.instructionLocation
-		}
-		return super.equals(other)
-	}
+//	override fun hashCode(): Int {
+////		return instructionLocation.hashCode()
+//		return blockLocation.hashCode()
+//	}
+//
+//	override fun equals(other: Any?): Boolean {
+//		if (other is IntraContext) {
+//			return this.instructionLocation == other.instructionLocation
+//		}
+//		return super.equals(other)
+//	}
 
 }
 
@@ -117,10 +130,15 @@ class InterContextSolver(var qes: TaintQuestion): AbstractStmtSwitch<Unit>() {
 	fun process(ctx: IntraContext): List<IntraContext> {
 		val curInst = ctx.instructionLocation
 		val nextInst = ctx.blockLocation.getSuccOf(curInst)
+
+		println(curInst)
+		println(nextInst)
+
 		if (nextInst != null) {
 			return oneStepForward(ctx, nextInst)
 		} else {
-//			println(ctx.blockLocation.toShortString())
+			println("Get new blocks\n\n")
+			println(ctx.blockLocation.toShortString())
 			val blocks = getBlocksInMtd(ctx)
 			if (blocks.isNotEmpty()) {
 				return processBlock(ctx, blocks)
@@ -151,16 +169,16 @@ class InterContextSolver(var qes: TaintQuestion): AbstractStmtSwitch<Unit>() {
 		}
 
 		currentContext = ctx
+		ctx.instructionLocation = curInst
 		curInst.apply(this)
 
-		ctx.instructionLocation = curInst
 		return ctxList
 	}
 
 	private fun processBlock(ctx: IntraContext, blocks: List<Block>): List<IntraContext>  {
 		val ctxList = arrayListOf<IntraContext>()
 		for (block in blocks) {
-			println(block.toShortString())
+			LogNow.info("block:" + block.toShortString())
 			val intraContext = IntraContext(ctx)
 			intraContext.setProcessedBlock(block)
 //			println(block)
@@ -170,15 +188,40 @@ class InterContextSolver(var qes: TaintQuestion): AbstractStmtSwitch<Unit>() {
 		return ctxList
 	}
 
-	private fun handleInvokeStmt(assiTo: Value, invokeExpr: InvokeExpr) {
+	private fun handleInvokeStmt(assiTo: Value?, invokeExpr: InvokeExpr): Boolean {
 		if (qes.isSink(invokeExpr.method)) {
 //			currentContext.
+			currentContext!!.setContainSink()
+			return true
 		}
+
+//		println(currentContext)
+		println("handleInvokeStmt: $invokeExpr " + invokeExpr.args + " " + currentContext!!.interestedValue)
+
+		if (currentContext!!.containInterested(invokeExpr.args)) {
+//			println(invokeExpr)
+			println("analysis: " + invokeExpr.args)
+			if (invokeExpr.method.isConcrete) {
+				if (jump2caller(assiTo, invokeExpr))
+					return true
+			}
+		}
+
+		return false
 	}
 
 
 	private fun gen() {
 
+	}
+
+	private fun extractValue(value: Value): Pair<Value, Value> {
+		if (value is JArrayRef) {
+			val arr = value as JArrayRef
+			println(arr.javaClass)
+			return Pair(arr.base, arr)
+		}
+		return Pair(value, value)
 	}
 
 
@@ -189,26 +232,53 @@ class InterContextSolver(var qes: TaintQuestion): AbstractStmtSwitch<Unit>() {
 
 		var isTaint = false
 		if (stmt.rightOp is InvokeExpr) {
-
+			isTaint = handleInvokeStmt(stmt.leftOp, stmt.rightOp as InvokeExpr)
 		}
-		// assign to left
-		if (currentContext!!.interestedValue.contains(stmt.rightOp)) {
+		// verify assign
+		val ty = extractValue(stmt.rightOp)
+		if (currentContext!!.interestedValue.contains(ty.first)) {
 			isTaint = true
 		}
-		if (isTaint) {
 
+		if (isTaint) {
+			currentContext!!.interestedValue.add(stmt.leftOp)
 		} else {
 			currentContext!!.interestedValue.remove(leftOp)
 		}
 		println("Assign: $stmt")
 	}
 
-//	override fun caseInvokeStmt(stmt: InvokeStmt?) {
-//
-//	}
+	override fun caseInvokeStmt(stmt: InvokeStmt?) {
+		handleInvokeStmt(null, stmt!!.invokeExpr)
+	}
 
-	fun jump2caller() {
+	// sec current context to new function
+	fun jump2caller(assiTo: Value?, invokeExpr: InvokeExpr): Boolean {
+//		println("jump2caller: $assiTo")
+		val callItem = CallStackItem(currentContext!!.methodLocation,
+			currentContext!!.blockLocation, currentContext!!.instructionLocation!!, assiTo)
 
+		currentContext!!.callStack.add(callItem)
+		val body = SootTool.tryGetMethodBody(invokeExpr.method)
+//		println("tryGetMethodBody: $body")
+		if (body != null) {
+			currentContext!!.methodLocation = invokeExpr.method
+			val cgb = BlockCache.getBlockGraph(body)
+			currentContext!!.blockLocation = cgb.heads[0]
+			currentContext!!.instructionLocation = currentContext!!.blockLocation.first()
+			println("JUMP to Method: ${invokeExpr.method} " + currentContext.hashCode() + " " + currentContext!!.instructionLocation)
+		} else {
+			println("invoke: " + invokeExpr.method.signature + " " + assiTo)
+			if (JDKHelper.isMethodTaint(invokeExpr.method.signature) && assiTo != null) {
+				println(currentContext)
+				println(currentContext!!.interestedValue)
+				currentContext!!.interestedValue.add(assiTo)
+				println("add assiTo: $assiTo")
+				println(currentContext!!.interestedValue)
+				return true
+			}
+		}
+		return false
 	}
 
 	override fun defaultCase(obj: Any?) {
@@ -225,7 +295,10 @@ class TaintQuestion(var source: SourcePoint) {
 	val intraContextSet = hashSetOf<IntraContext>()
 
 	init {
-		intraContextSet.add(IntraContext(source.mtd, source.block, source.inst))
+		// 添加初始taint value
+		val startContext = IntraContext(source.mtd, source.block, source.inst)
+		startContext.interestedValue.add(source.value)
+		intraContextSet.add(startContext)
 	}
 
 	fun addSink(mtd: SootMethod) {
@@ -259,17 +332,21 @@ class TaintSolver() {
 	fun solve(qes: TaintQuestion) {
 		val workList = LinkedList<IntraContext>()
 		workList.add(qes.intraContextSet.first())
+		var instNum = 120000
 		while (workList.isNotEmpty()) {
+			if (--instNum <= 0) break
 			val startCtx = workList.poll()
+//			println(startCtx.blockLocation)
 			// process one instruction
+			println("Block Num: ${workList.size}")
+			LogNow.info("===\n===\nProcess one ctx: ${startCtx.hashCode()} " + startCtx.interestedValue)
+//			println(startCtx.blockLocation)
 			val devised = qes.interContext.process(startCtx)
 //			LogNow.info("New Blocks: " + devised.size)
 			if (!startCtx.isTerminate) {
 				workList.add(startCtx)
 			}
-			for (nCtx in devised) {
-				workList.add(nCtx)
-			}
+			workList.addAll(devised)
 		}
 	}
 }

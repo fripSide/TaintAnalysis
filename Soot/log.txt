@@ -3,4 +3,23 @@ specialinvoke $r0.<InterTest: void <init>()>()
 $r2 = r1[0]
 $i0 = staticinvoke <java.lang.Integer: int parseInt(java.lang.String)>($r2)
 virtualinvoke $r0.<InterTest: void invoke1(int,int)>($i0, 2)
+i0 := @parameter0: int
+i1 := @parameter1: int
+$i2 = i0 + i1
+i3 = $i2 + 0
+$f0 = virtualinvoke r0.<InterTest: float invoke2(int)>(i3)
+$r1 = new HelloWorld
+$i4 = (int) $f0
+specialinvoke $r1.<HelloWorld: void <init>(int)>($i4)
+virtualinvoke $r1.<HelloWorld: void invoke3()>()
+$f1 = 2.0F * $f0
+$r2 = specialinvoke r0.<InterTest: HelloWorld getClass(float)>($f1)
+virtualinvoke $r2.<HelloWorld: void invoke(int)>(i3)
+virtualinvoke $r2.<HelloWorld: void invoke3()>()
+$r3 = specialinvoke r0.<InterTest: int[] invoke4(int,HelloWorld)>(2, $r2)
+i5 = $r3[0]
+$r4 = <java.lang.System: java.io.PrintStream out>
+virtualinvoke $r4.<java.io.PrintStream: void println(java.lang.Object)>($r3)
+$r5 = <java.lang.System: java.io.PrintStream out>
+virtualinvoke $r5.<java.io.PrintStream: void println(int)>(i5)
 return

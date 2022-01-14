@@ -1,11 +1,10 @@
 package soottaint.common
 
-object JavaSDKHelper {
+object JDKHelper {
 
-	val methods = listOf("")
+	private val methodSet = hashSetOf("<java.lang.Integer: int parseInt(java.lang.String)>")
 
-	fun isMethodTaint(): Boolean {
-
-		return false
+	fun isMethodTaint(sign: String): Boolean {
+		return methodSet.contains(sign)
 	}
 }

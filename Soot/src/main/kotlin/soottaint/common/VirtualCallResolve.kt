@@ -1,4 +1,11 @@
 package soottaint.common
 
-class VirutalCallResolve {
+import soot.SootClass
+
+object VirtualCallResolve {
+
+	fun useCha(cls: SootClass): SootClass {
+
+		return cls
+	}
 }
